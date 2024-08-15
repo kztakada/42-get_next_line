@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:33:25 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/14 21:23:33 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:08:30 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,23 @@
 
 char	*get_next_line(int fd)
 {
-	t_string	ret;
-	char		c;
+	t_string	oneline;
 
 	if (BUFFER_SIZE < 1)
 		return (NULL);
-	ret.str = NULL;
-	ret.str_len = 0;
-	ret.capacity_size = 0;
-	while (1)
-	{
-		c = ft_getchar(fd);
-		if (c == EOF)
-			break ;
-		if (!ft_putchar(&ret, c))
-			return (NULL);
-		if (c == '\n')
-			break ;
-	}
-	if (ret.str_len == 0)
+	if (fd < 0)
 		return (NULL);
-	if (ret.str_len > 0)
+	oneline.str = NULL;
+	oneline.str_len = 0;
+	oneline.capacity_size = 0;
+	if (!ft_putstr(&oneline, fd))
+		return (free(oneline.str), NULL);
+	if (oneline.str_len == 0)
+		return (NULL);
+	if (oneline.str_len > 0)
 	{
-		if (!ft_putchar(&ret, '\0'))
+		if (!ft_putchar(&oneline, '\0'))
 			return (NULL);
 	}
-	return (ret.str);
+	return (oneline.str);
 }
