@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:33:46 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/15 19:42:42 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/16 00:25:37 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ int	ft_putchar(t_string *oneline, char c)
 
 	if (!oneline->str)
 	{
-		oneline->capacity_size = BUFFER_SIZE;
-		oneline->str = (char *)malloc(oneline->capacity_size);
-		if (!oneline->str)
+		if (!init_oneline(oneline))
 			return (FAILURE);
 	}
 	if (oneline->str_len + 1 >= oneline->capacity_size)
@@ -77,22 +75,12 @@ int	ft_putchar(t_string *oneline, char c)
 	return (SUCCESS);
 }
 
-int	ft_putstr(char **buf_ptr, t_string *oneline, int fd)
+int	init_oneline(t_string *oneline)
 {
-	char	c;
-
-	while (1)
-	{
-		c = ft_getchar(buf_ptr, fd);
-		if (c == READ_ERROR)
-			return (FAILURE);
-		if (c == EOF)
-			break ;
-		if (!ft_putchar(oneline, c))
-			return (FAILURE);
-		if (c == '\n')
-			break ;
-	}
+	oneline->capacity_size = BUFFER_SIZE;
+	oneline->str = (char *)malloc(oneline->capacity_size);
+	if (!oneline->str)
+		return (FAILURE);
 	return (SUCCESS);
 }
 
