@@ -6,34 +6,45 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:33:46 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/15 16:46:31 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/15 19:42:42 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-int	ft_getchar(int fd)
+int	ft_getchar(char **buf_ptr, int fd)
 {
-	static char	*buf;
-	static char	*buf_ptr;
-	static int	number_of_reads = 0;
+	int	number_of_reads;
+	int	c;
 
-	if (!buf)
-	{
-		buf = (char *)malloc(BUFFER_SIZE * sizeof(char));
-		if (!buf)
-			return (READ_ERROR);
-	}
+	number_of_reads = ft_strlen(*buf_ptr);
 	if (number_of_reads == 0)
 	{
-		number_of_reads = read(fd, buf, BUFFER_SIZE);
+		number_of_reads = read(fd, *buf_ptr, BUFFER_SIZE);
 		if (number_of_reads < 0)
 			return (READ_ERROR);
-		buf_ptr = buf;
+		(*buf_ptr)[number_of_reads] = '\0';
 	}
 	if (--number_of_reads >= 0)
-		return ((unsigned char)*buf_ptr++);
+	{
+		c = (unsigned char)**buf_ptr;
+		(*buf_ptr)++;
+		return (c);
+	}
 	return (EOF);
+}
+
+size_t	ft_strlen(const char *str_src)
+{
+	size_t	str_len;
+
+	if (!str_src)
+		return (0);
+	str_len = 0;
+	while (str_src[str_len])
+		str_len++;
+	return (str_len);
 }
 
 int	ft_putchar(t_string *oneline, char c)
@@ -66,13 +77,13 @@ int	ft_putchar(t_string *oneline, char c)
 	return (SUCCESS);
 }
 
-int	ft_putstr(t_string *oneline, int fd)
+int	ft_putstr(char **buf_ptr, t_string *oneline, int fd)
 {
 	char	c;
 
 	while (1)
 	{
-		c = ft_getchar(fd);
+		c = ft_getchar(buf_ptr, fd);
 		if (c == READ_ERROR)
 			return (FAILURE);
 		if (c == EOF)

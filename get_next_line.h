@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:02:13 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/15 16:50:13 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:58:25 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ typedef struct s_string
 }			t_string;
 
 char		*get_next_line(int fd);
-int			ft_getchar(int fd);
+int			ft_getchar(char **buf_ptr, int fd);
 int			ft_putchar(t_string *str, char c);
-int			ft_putstr(t_string *str, int fd);
+int			ft_putstr(char **buf_ptr, t_string *str, int fd);
+size_t		ft_strlen(const char *str_src);
 void		*ft_memcpy(void *target_dest, const void *target_src,
 				size_t copy_bytes);
 
