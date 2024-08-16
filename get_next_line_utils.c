@@ -6,34 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:33:46 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/16 00:25:37 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/17 00:46:49 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
-int	ft_getchar(char **buf_ptr, int fd)
-{
-	int	number_of_reads;
-	int	c;
-
-	number_of_reads = ft_strlen(*buf_ptr);
-	if (number_of_reads == 0)
-	{
-		number_of_reads = read(fd, *buf_ptr, BUFFER_SIZE);
-		if (number_of_reads < 0)
-			return (READ_ERROR);
-		(*buf_ptr)[number_of_reads] = '\0';
-	}
-	if (--number_of_reads >= 0)
-	{
-		c = (unsigned char)**buf_ptr;
-		(*buf_ptr)++;
-		return (c);
-	}
-	return (EOF);
-}
 
 size_t	ft_strlen(const char *str_src)
 {
@@ -45,43 +22,6 @@ size_t	ft_strlen(const char *str_src)
 	while (str_src[str_len])
 		str_len++;
 	return (str_len);
-}
-
-int	ft_putchar(t_string *oneline, char c)
-{
-	char	*new_str;
-
-	if (!oneline->str)
-	{
-		if (!init_oneline(oneline))
-			return (FAILURE);
-	}
-	if (oneline->str_len + 1 >= oneline->capacity_size)
-	{
-		if (oneline->capacity_size > SIZE_MAX)
-			return (FAILURE);
-		if (oneline->capacity_size * 2 > SIZE_MAX)
-			oneline->capacity_size = SIZE_MAX;
-		else
-			oneline->capacity_size *= 2;
-		new_str = (char *)malloc(oneline->capacity_size);
-		if (!new_str)
-			return (FAILURE);
-		ft_memcpy(new_str, oneline->str, oneline->str_len);
-		free(oneline->str);
-		oneline->str = new_str;
-	}
-	oneline->str[oneline->str_len++] = c;
-	return (SUCCESS);
-}
-
-int	init_oneline(t_string *oneline)
-{
-	oneline->capacity_size = BUFFER_SIZE;
-	oneline->str = (char *)malloc(oneline->capacity_size);
-	if (!oneline->str)
-		return (FAILURE);
-	return (SUCCESS);
 }
 
 void	*ft_memcpy(void *target_dest, const void *target_src, size_t copy_bytes)
@@ -101,4 +41,58 @@ void	*ft_memcpy(void *target_dest, const void *target_src, size_t copy_bytes)
 			*copy_dest++ = *copy_src++;
 	}
 	return (target_dest);
+}
+
+char	*ft_strdup(const char *str_src)
+{
+	char	*duplicated_new_str;
+	size_t	str_len;
+
+	str_len = ft_strlen(str_src);
+	duplicated_new_str = (char *)malloc(sizeof(char) * (str_len + 1));
+	if (!duplicated_new_str)
+		return (NULL);
+	ft_memcpy(duplicated_new_str, str_src, (str_len + 1));
+	return (duplicated_new_str);
+}
+
+char	*ft_substr(char const *main_str_src, unsigned int start_index,
+		size_t request_substr_len)
+{
+	size_t	main_str_len;
+	size_t	substr_len;
+	char	*substr;
+
+	if (!main_str_src)
+		return (NULL);
+	main_str_len = ft_strlen(main_str_src);
+	substr_len = request_substr_len;
+	if (main_str_len <= start_index)
+		return (ft_strdup(""));
+	if (main_str_len < (start_index + request_substr_len))
+		substr_len = main_str_len - start_index;
+	substr = (char *)malloc(sizeof(char) * (substr_len + 1));
+	if (!substr)
+		return (NULL);
+	ft_memcpy(substr, (main_str_src + start_index), substr_len);
+	substr[substr_len] = '\0';
+	return (substr);
+}
+
+char	*ft_strjoin(char const *str_src_1, char const *str_src_2)
+{
+	char	*join;
+	size_t	len_str1;
+	size_t	len_str2;
+
+	if (!str_src_1 || !str_src_2)
+		return (NULL);
+	len_str1 = ft_strlen(str_src_1);
+	len_str2 = ft_strlen(str_src_2);
+	join = (char *)malloc(sizeof(char) * (len_str1 + len_str2 + 1));
+	if (!join)
+		return (NULL);
+	ft_memcpy(join, str_src_1, len_str1);
+	ft_memcpy(join + len_str1, str_src_2, len_str2 + 1);
+	return (join);
 }
