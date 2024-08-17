@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:02:13 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/17 00:45:55 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/17 13:25:31 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
-# endif
-# if BUFFER_SIZE > SIZE_MAX || BUFFER_SIZE < 1
-#  undef BUFFER_SIZE
-#  define BUFFER_SIZE 0
-#  error "BUFFER_SIZE must be between 1 and SIZE_MAX"
 # endif
 
 char	*get_next_line(int fd);
