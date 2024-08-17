@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 00:44:34 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/17 00:47:57 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:46:45 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	init_parm(int *is_readable, int *is_end, char **oneline, char **read_buf)
 		return (0);
 	*read_buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!*read_buf)
-		return (free(oneline), 0);
+		return (free(*oneline), 0);
 	return (1);
 }
 
