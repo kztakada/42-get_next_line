@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 00:44:44 by katakada          #+#    #+#             */
-/*   Updated: 2024/08/17 14:46:57 by katakada         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:49:53 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
+# endif
+# ifndef OPEN_MAX
+#  define OPEN_MAX 1048576
 # endif
 
 char	*get_next_line(int fd);
